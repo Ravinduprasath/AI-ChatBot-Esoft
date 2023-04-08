@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CodePen - chatbox Jquery</title>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/4.0.2/bootstrap-material-design.css'>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+    <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+    <!-- partial:index.partial.html -->
+    <div id="center-text">
+        <h2>ChatBox UI</h2>
+        <p>Message send and scroll to bottom enabled </p>
+    </div>
+    <div id="body">
+
+        <div id="chat-circle" class="">
+            <svg width="84" height="84" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <style>
+                        .cls-1 {
+                            fill: #ff000f;
+                        }
+
+                        .cls-2 {
+                            fill: #fff;
+                        }
+                    </style>
+                </defs>
+                <title>Codi Button</title>
+                <g id="kółko"><circle class="cls-1" cx="32" cy="32" r="32" /></g>
+                <g id="Lewe_ucho" data-name="Lewe ucho">
+                    <rect class="cls-2" x="9" y="26" width="2" height="14" />
+                </g>
+                <g id="Prawe_ucho" data-name="Prawe ucho">
+                    <rect class="cls-2" x="53" y="26" width="2" height="14" />
+                </g>
+                <g id="Głowa">
+                    <path class="cls-2" d="M14,20l-1,1V44.9l1,1H25.75l15,8,1.35-1.34L38.67,45.9H50l1-1V21l-1-1ZM49,43.9H37l-.89,1.46,2.74,5.24L26.47,44,26,43.9H15V22H49Z" />
+                </g>
+                <g id="Buzia"><rect class="cls-2" x="28" y="37" width="8" height="2" /></g>
+                <g id="Prawe_oko" data-name="Prawe oko">
+                    <path class="cls-2" d="M40,30a2,2,0,0,1,2,2h2a4,4,0,0,0-8,0h2A2,2,0,0,1,40,30Z" />
+                </g>
+                <g id="Lewe_oko" data-name="Lewe oko">
+                    <path class="cls-2" d="M24,30a2,2,0,0,1,2,2h2a4,4,0,0,0-8,0h2A2,2,0,0,1,24,30Z" />
+                </g>
+                <g id="Antena">
+                    <path class="cls-2" d="M36,14a4,4,0,1,0-5,3.85L31,21h2l0-3.14A4,4,0,0,0,36,14Zm-4,2a2,2,0,1,1,2-2A2,2,0,0,1,32,16Z" />
+                </g>
+            </svg>
+        </div>
+
+
+        <div class="chat-box">
+            <div class="chat-box-header">
+                ChatBot
+                <span class="chat-box-toggle"><i class="material-icons">close</i></span>
+            </div>
+            <div class="chat-box-body">
+                <div class="chat-box-overlay">
+                </div>
+                <div class="chat-logs">
+                </div><!--chat-log -->
+            </div>
+            <div class="chat-input">
+                <form>
+                    <input type="text" id="chat-input" placeholder="Send a message..." />
+                    <button type="submit" class="chat-submit" id="chat-submit"><i class="material-icons">send</i></button>
+                </form>
+            </div>
+        </div>
+
+
+
+
+    </div>
+    <!-- partial -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/js/bootstrap.min.js'></script>
+    <script src="./script.js"></script>
+
+</body>
+</html>
