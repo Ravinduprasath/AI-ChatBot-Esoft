@@ -143,6 +143,7 @@
     width: 35px;
     height: 35px;
     font-size: 25px;
+    margin-bottom: 2px;
 }
 
 .chat-logs {
@@ -151,19 +152,19 @@
     overflow-y: scroll;
 }
 
-    .chat-logs::-webkit-scrollbar-track {
-        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-        background-color: #F5F5F5;
-    }
+.chat-logs::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+}
 
-    .chat-logs::-webkit-scrollbar {
-        width: 5px;
-        background-color: #F5F5F5;
-    }
+.chat-logs::-webkit-scrollbar {
+    width: 5px;
+    background-color: #F5F5F5;
+}
 
-    .chat-logs::-webkit-scrollbar-thumb {
-        background-color: #5A5EB9;
-    }
+.chat-logs::-webkit-scrollbar-thumb {
+    background-color: #5A5EB9;
+}
 
 
 
@@ -215,12 +216,14 @@
 .cm-msg-button > ul > li {
     list-style: none;
     float: left;
-    width: 50%;
+    margin-right: 5px;
+    margin-bottom: 5px;
 }
 
 .cm-msg-button {
     clear: both;
-    margin-bottom: 70px;
+    margin-bottom: 10px;
+    margin-top: 8px;
 }
 
 .cls-1 {
@@ -229,4 +232,8 @@
 
 .cls-2 {
     fill: #fff;
+}
+
+.cm-button-container {
+    display : flex;
 }
