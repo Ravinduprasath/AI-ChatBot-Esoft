@@ -15,7 +15,7 @@ html, body {
 
 #chat-circle {
     position: fixed;
-    bottom: 50px;
+    bottom: 100px;
     right: 50px;
     width: 80px;
     height: 80px;
@@ -51,7 +51,7 @@ html, body {
     background: #efefef;
     position: fixed;
     right: 30px;
-    bottom: 50px;
+    bottom: 80px;
     width: 350px;
     max-width: 85vw;
     max-height: 100vh;
