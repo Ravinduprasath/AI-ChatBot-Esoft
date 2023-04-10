@@ -1,7 +1,13 @@
+using JourneyMate.DbLayer.Models;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<ChatBotContext>(options =>
+    options.UseMySQL(builder.Configuration.GetConnectionString("DevConnection")));
 
 var app = builder.Build();
 
