@@ -1,4 +1,6 @@
 using JourneyMate.DbLayer.Models;
+using JourneyMate.DbLayer.Repositories;
+using JourneyMate.ServiceLayer.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +10,12 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<ChatBotContext>(options =>
     options.UseMySQL(builder.Configuration.GetConnectionString("DevConnection")));
+
+// Db layer dependecy injection
+builder.Services.AddScoped<IChatBotRepo, ChatBotRepo>();
+
+// Service layer dependecy injection
+builder.Services.AddScoped<IChatBotService, ChatBotService>();
 
 var app = builder.Build();
 

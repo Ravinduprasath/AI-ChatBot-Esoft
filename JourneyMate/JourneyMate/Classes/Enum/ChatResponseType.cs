@@ -12,12 +12,12 @@ namespace JourneyMate.Classes.Enum
         /// Including html and all
         /// </summary>
         [EnumMember(Value = "Text")]
-        Text,
+        Text = 1,
 
         /// <summary>
         /// Send buttons
         /// </summary>
         [EnumMember(Value = "Buttons")]
-        Buttons
+        Buttons = 2
     }
 }
