@@ -153,15 +153,19 @@ namespace JourneyMate.ServiceLayer.Services
         /// <param name="queryWords">Filtered intent words</param>
         /// <param name="searchQuery">What user looking for</param>
         /// <returns></returns>
-        private UserIntent GetUserIntent(List<UserIntent> userIntentKewords, List<string> queryWords, string searchQuery) 
+        private UserIntent? GetUserIntent(List<UserIntent> userIntentKewords, List<string> queryWords, string searchQuery) 
         {
+            #pragma warning disable CS8600
+
             UserIntent intent = new UserIntent();
 
             if (queryWords.Any())
-                intent = userIntentKewords.Where(x => x.Keyword.Contains(queryWords.First())).First();
+                intent = userIntentKewords.Where(x => x.Keyword.Contains(queryWords.First())).FirstOrDefault();
 
-            if(intent.Id == default || !queryWords.Any())
-                intent = userIntentKewords.Where(x => x.Keyword.Contains(searchQuery)).First();
+            if (intent is null || !queryWords.Any())
+                intent = userIntentKewords.Where(x => x.Keyword.Contains(searchQuery)).FirstOrDefault();
+
+            #pragma warning restore CS8600
 
             return intent;
         }
