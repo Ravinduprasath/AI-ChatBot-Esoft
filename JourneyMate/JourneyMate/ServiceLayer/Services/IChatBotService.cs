@@ -5,9 +5,12 @@ namespace JourneyMate.ServiceLayer.Services
     public interface IChatBotService
     {
         /// <summary>
-        /// Get all intents with keywords
+        /// Get user input and return a response
         /// </summary>
-        /// <returns></returns>
-        Task<List<Intent>> IntentWithKeywords();
+        /// <param name="userInput">Unser input in string</param>
+        /// <returns>
+        /// Success : Answer , Else : Error messege
+        /// </returns>
+        Task<List<BotAnswer>> GetResponse(string userInput);
     }
 }

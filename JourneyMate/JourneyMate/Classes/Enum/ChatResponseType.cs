@@ -18,6 +18,6 @@ namespace JourneyMate.Classes.Enum
         /// Send buttons
         /// </summary>
         [EnumMember(Value = "Buttons")]
-        Buttons = 2
+        Buttons = 2,
     }
 }

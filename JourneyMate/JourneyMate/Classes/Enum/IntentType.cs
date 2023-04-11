@@ -5,6 +5,9 @@
     /// </summary>
     public enum IntentType
     {
-        Greeting = 1
+        None     = 0,
+        Greeting = 1,
+        Farewell = 2,
+        Find     = 3
     }
 }

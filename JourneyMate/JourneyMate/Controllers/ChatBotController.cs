@@ -1,10 +1,8 @@
 ﻿using JourneyMate.Classes.Enum;
 using JourneyMate.DbLayer.Domains;
-using JourneyMate.DbLayer.Models;
 using JourneyMate.Models.ChatBot;
 using JourneyMate.ServiceLayer.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Net;
 
 
@@ -12,19 +10,12 @@ namespace JourneyMate.Controllers
 {
     public class ChatBotController : Controller
     {
-        private readonly ChatBotContext _context;
+        private readonly IChatBotService _chatBotService;
 
-        public ChatBotController(ChatBotContext context)
+        public ChatBotController(IChatBotService chatBotService)
         {
-            _context = context;
+            _chatBotService = chatBotService;
         }
-
-        //private readonly IChatBotService _chatBotService;
-
-        //public ChatBotController(IChatBotService chatBotService)
-        //{
-        //    _chatBotService = chatBotService;
-        //}
 
         public IActionResult Index()
         {
@@ -38,99 +29,79 @@ namespace JourneyMate.Controllers
         /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> ChatMessege(string userInput)
-        {
-            var data = new ChatResponse
-            {
-                Status = HttpStatusCode.OK,
-                Type   = ChatResponseType.Text
-            };
-
-            userInput       = userInput.ToLower();
-            var userIntents = await _context.UserIntents.ToListAsync();
-
-            // Get specific intent
-            var getIntent = userIntents.Where(x => x.Keyword.Contains(userInput)).FirstOrDefault();
-
-            if(getIntent is null)
-                data.Messeges.Add("Sorry I could't find an answer");
-            else
-            {
-                // Get all questions in this intent type
-                var questions = await _context.Questions.Where(x => getIntent.IntentId == x.IntentId).ToListAsync();
-
-                if (questions is null)
-                    data.Messeges.Add("Sorry I could't find an answer");
-                else
-                {
-                    // I there any close matching questions?
-                    var closestMatchQuestion = questions.OrderBy(x => LevenshteinDistance(x.Text, userInput)).FirstOrDefault();
-
-                    if (closestMatchQuestion is null)
-                        data.Messeges.Add("Sorry I could't find an answer");
-                    else 
-                    {
-                        // Get answer for that qiestion
-                        var answer = await _context.BotAnswers.Where(x => x.QuestionId == closestMatchQuestion.Id).ToListAsync();
-
-                        if (getIntent.IntentId == (long)IntentType.Greeting)
-                        {
-                            // if there is many answers pick one random
-                            var randomAnswer = answer[new Random().Next(answer.Count)];
-
-                            data.Type = (ChatResponseType)randomAnswer.AnswerTypeId;
-
-                            if (data.Type == ChatResponseType.Text)
-                                data.Messeges.Add(randomAnswer.Text);
-                        }                   
-                    }
-                }
-
-            }
+        {         
+            var res  = await _chatBotService.GetResponse(userInput);
+            var data = GetResponseGetChatResponse(res);
 
             return Json(data);
         }
 
-        public int LevenshteinDistance(string s, string t)
+        /// <summary>
+        /// Convert answer to ChatResponse
+        /// </summary>
+        /// <param name="botAnswers">List of answers</param>
+        /// <returns></returns>
+        private ChatResponse GetResponseGetChatResponse(List<BotAnswer> botAnswers) 
         {
-            if (string.IsNullOrEmpty(s))
+            var data = new ChatResponse
             {
-                if (string.IsNullOrEmpty(t))
-                    return 0;
-                return t.Length;
+                Status = HttpStatusCode.OK,
+                Type = ChatResponseType.Text
+            };
+
+            // Get intent type id
+            long intentType = botAnswers.Select(x => x.Question.IntentId).FirstOrDefault();
+
+            switch(intentType) 
+            {
+                case (int)IntentType.Greeting:
+                    // If there is many answers pick one random
+                    var randomAnswer = botAnswers[new Random().Next(botAnswers.Count)];
+
+                    data.Type = (ChatResponseType)randomAnswer.AnswerTypeId;
+
+                    if (data.Type == ChatResponseType.Text)
+                        data.Messeges.Add(randomAnswer.Text);
+
+                    break;
+                case (int)IntentType.Farewell:
+
+                    var randomAnswerFarewell = botAnswers[new Random().Next(botAnswers.Count)];
+
+                    data.Type = (ChatResponseType)randomAnswerFarewell.AnswerTypeId;
+
+                    if (data.Type == ChatResponseType.Text)
+                        data.Messeges.Add(randomAnswerFarewell.Text);
+
+                    break;
+                case (int)IntentType.Find:
+
+                    AddToMessege(botAnswers, data);
+
+                    break;
+                default:
+                    data.Messeges.Add("Sorry I could't find an answer");
+                    data.Type = ChatResponseType.Text;
+                    break;
             }
 
-            if (string.IsNullOrEmpty(t))
+            return data;
+        }
+
+        /// <summary>
+        /// Add messege to chat response
+        /// </summary>
+        /// <param name="botAnswer"></param>
+        /// <param name="data"></param>
+        private void AddToMessege(List<BotAnswer> botAnswer, ChatResponse data) 
+        {
+            foreach (BotAnswer answer in botAnswer)
             {
-                return s.Length;
-            }
-
-            int n = s.Length;
-            int m = t.Length;
-            int[,] d = new int[n + 1, m + 1];
-
-            for (int i = 0; i <= n; i++)
-            {
-                d[i, 0] = i;
-            }
-
-            for (int j = 0; j <= m; j++)
-            {
-                d[0, j] = j;
-            }
-
-            for (int i = 1; i <= n; i++)
-            {
-                for (int j = 1; j <= m; j++)
-                {
-                    int cost = (t[j - 1] == s[i - 1]) ? 0 : 1;
-
-                    d[i, j] = Math.Min(
-                        Math.Min(d[i - 1, j] + 1, d[i, j - 1] + 1),
-                        d[i - 1, j - 1] + cost);
+                if (answer.AnswerTypeId == (int)ChatResponseType.Text) 
+                {           
+                    data.Messeges.Add(answer.Text);
                 }
             }
-
-            return d[n, m];
         }
 
         //data.Buttons.Add(new ChatBotButton("Google", "btn btn-sm btn-primary", href: "https://www.google.lk"));

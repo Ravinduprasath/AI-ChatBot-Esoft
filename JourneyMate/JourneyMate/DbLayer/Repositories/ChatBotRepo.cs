@@ -26,5 +26,50 @@ namespace JourneyMate.DbLayer.Repositories
 
             return list;
         }
+
+        /// <summary>
+        /// Get all intents keywords
+        /// Decending by length
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<UserIntent>> UserIntents()
+        {
+            var list = await _context.UserIntents.OrderByDescending(x => x.Keyword.Length).ToListAsync();
+
+            if (list == null)
+                return new List<UserIntent>();
+
+            return list;
+        }
+
+        /// <summary>
+        /// Question for intent id
+        /// </summary>
+        /// <param name="intentId">Intent type id</param>
+        /// <returns></returns>
+        public async Task<List<Question>> Questions(long intentId)
+        {
+            var list = await _context.Questions.Where(x => x.IntentId == intentId).ToListAsync();
+
+            if (list == null)
+                return new List<Question>();
+
+            return list;
+        }
+
+        /// <summary>
+        /// Get answers for a question
+        /// </summary>
+        /// <param name="questionId">Unique question id</param>
+        /// <returns></returns>
+        public async Task<List<BotAnswer>> Answers(long questionId)
+        {
+            var list = await _context.BotAnswers.Where(x => x.QuestionId == questionId).ToListAsync();
+
+            if (list == null)
+                return new List<BotAnswer>();
+
+            return list;
+        }
     }
 }
