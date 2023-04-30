@@ -71,5 +71,23 @@ namespace JourneyMate.DbLayer.Repositories
 
             return list;
         }
+
+        /// <summary>
+        /// Get answers for a keyword
+        /// </summary>
+        /// <param name="keyword">Some matching words</param>
+        /// <returns></returns>
+        public async Task<List<BotAnswer>> AnswersFromKeyword(string keyword)
+        {
+            var list = await _context.Questions.Where(x => x.Text.Contains(keyword))
+                                               .Include(x => x.BotAnswers)
+                                               .Select(x => x.BotAnswers)
+                                               .FirstOrDefaultAsync();
+
+            if (list == null)
+                return new List<BotAnswer>();
+
+            return list;
+        }
     }
 }

@@ -79,9 +79,17 @@ namespace JourneyMate.Controllers
                     AddToMessege(botAnswers, data);
 
                     break;
-                default:
-                    data.Messeges.Add("Sorry I could't find an answer");
+                default:     
+                    
                     data.Type = ChatResponseType.Text;
+
+                    // Got answer with no intent
+                    if (botAnswers.Any())
+                        AddToMessege(botAnswers, data);
+                    // No answer
+                    else
+                        data.Messeges.Add("Sorry I could't find an answer");
+
                     break;
             }
 

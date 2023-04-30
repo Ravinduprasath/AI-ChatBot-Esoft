@@ -30,5 +30,12 @@ namespace JourneyMate.DbLayer.Repositories
         /// <param name="questionId">Unique question id</param>
         /// <returns></returns>
         Task<List<BotAnswer>> Answers(long questionId);
+
+        /// <summary>
+        /// Get answers for a keyword
+        /// </summary>
+        /// <param name="keyword">Some matching words</param>
+        /// <returns></returns>
+        Task<List<BotAnswer>> AnswersFromKeyword(string keyword);
     }
 }
