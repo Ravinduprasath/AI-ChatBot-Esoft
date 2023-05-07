@@ -1,6 +1,49 @@
 ﻿$(function () {
 
     var INDEX = 0;
+    voiceToText();
+
+    // ----------------------------- Voice to text ---------------------------------------
+
+    function voiceToText() {
+        const recognition = new webkitSpeechRecognition();
+        recognition.continuous = true;
+        recognition.lang = 'en-US';
+
+        const startVoiceBtn = document.getElementById('start-voice-record');
+        const stopVoiceBtn  = document.getElementById('stop-voice-record');
+        const messageInput  = document.getElementById('chat-input');
+
+        startVoiceBtn.addEventListener('click', () => {
+            recognition.start();
+            startVoiceBtn.style = "display:none;";
+            stopVoiceBtn.style = "display:inline-block;";
+        });
+
+        stopVoiceBtn.addEventListener('click', () => {
+            recognition.stop();
+            stopVoiceBtn.style = "display:none;";
+            startVoiceBtn.style = "display:inline-block;";
+        });
+
+        // Add a regular expression to filter out symbols
+        const noSymbolsRegex = /[^\w\s]|_/g;
+
+        recognition.onresult = (event) => {
+            const lastResultIndex = event.results.length - 1;
+            const lastTranscript = event.results[lastResultIndex][0].transcript;
+
+            // Remove symbols from the transcript using the regex
+            const transcriptWithoutSymbols = lastTranscript.replace(noSymbolsRegex, '');
+
+            console.log(transcriptWithoutSymbols);
+
+            messageInput.value = transcriptWithoutSymbols;
+        };
+
+    }
+
+    // -------------------------- Submit -----------------------------------------------
 
     $("#chat-submit").click(function (e) {
         e.preventDefault();      

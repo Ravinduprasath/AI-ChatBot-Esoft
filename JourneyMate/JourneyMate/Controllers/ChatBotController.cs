@@ -36,6 +36,8 @@ namespace JourneyMate.Controllers
             return Json(data);
         }
 
+        #region Helper
+
         /// <summary>
         /// Convert answer to ChatResponse
         /// </summary>
@@ -116,5 +118,6 @@ namespace JourneyMate.Controllers
         //data.Buttons.Add(new ChatBotButton("C#", "btn btn-sm btn-primary"));
 
         //data.Messeges.Add("Hi");
+        #endregion
     }
 }

@@ -41,11 +41,60 @@
             <div class="chat-logs">
             </div><!--chat-log -->
         </div>
+
         <div class="chat-input">
             <form>
-                <input type="text" id="chat-input" placeholder="Send a message..." />
+                <i class='bx bx-microphone mic-speak-icon-start' id="start-voice-record"></i>
+                <i class='bx bx-microphone-off mic-speak-icon-stop' id="stop-voice-record"></i>
+                <input type="text" id="chat-input" placeholder="Send a message..." />          
                 <button type="submit" class="chat-submit" id="chat-submit"><i class='bx bx-send'></i></button>
             </form>
+            @*<div class="row">
+                <div class="col-md-1 mt-2">
+                    <i class='bx bx-microphone mic-speak-icon-start' id="start-voice-record"></i>
+                    <i class='bx bx-microphone-off mic-speak-icon-stop' id="stop-voice-record"></i>
+                </div>
+                <div class="col-md-11">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Type your message" id="message-input">
+                        <button type="button" class="btn btn-primary" onclick="sendMessage()">Send</button>
+                    </div>
+                </div>
+            </div>*@
         </div>
     </div>
 </div>
+
+<style type="text/css">
+    .mic-speak-icon-start {
+        font-size: 18px;
+        color: #0d6efd;
+        background: transparent;
+        padding: 5px 8px;
+        border-radius: 50%;
+        height: 32px;
+        padding-top: 7px;
+        margin-left: 5px;
+    }
+
+    .mic-speak-icon-start:hover {
+        background: #0d6efd;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    .mic-speak-icon-stop {
+        display: none;
+        font-size: 18px;
+        color: #0d6efd;
+        background: transparent;
+        padding: 5px 8px;
+        border-radius: 50%;
+        background: #0d6efd;
+        color: #fff;
+        cursor: pointer;
+        height: 32px;
+        padding-top: 7px;
+        margin-left: 5px;
+    }
+</style>
