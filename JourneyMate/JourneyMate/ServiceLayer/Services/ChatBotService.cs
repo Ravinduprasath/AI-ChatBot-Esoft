@@ -60,10 +60,13 @@ namespace JourneyMate.ServiceLayer.Services
                 if (questions is null)
                     return answers;
 
-                var closestMatchQuestion = questions.Where(x => x.Text.Contains(searchQuery)).FirstOrDefault();
+                Question? closestMatchQuestion = new Question();
+
+                closestMatchQuestion = questions.Where(x => x.Text.ToLower().Contains(searchQuery.ToLower())).FirstOrDefault();
 
                 if (closestMatchQuestion is null)
                     return answers;
+
 
                 answersFromDb = await Answers(closestMatchQuestion.Id);
             }

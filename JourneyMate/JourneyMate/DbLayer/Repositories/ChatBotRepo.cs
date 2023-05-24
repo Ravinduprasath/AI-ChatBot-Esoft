@@ -79,7 +79,7 @@ namespace JourneyMate.DbLayer.Repositories
         /// <returns></returns>
         public async Task<List<BotAnswer>> AnswersFromKeyword(string keyword)
         {
-            var list = await _context.Questions.Where(x => x.Text.Contains(keyword))
+            var list = await _context.Questions.Where(x => x.Text.ToLower().Contains(keyword.ToLower()))
                                                .Include(x => x.BotAnswers)
                                                .Select(x => x.BotAnswers)
                                                .FirstOrDefaultAsync();
