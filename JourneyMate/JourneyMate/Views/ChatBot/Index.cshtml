@@ -46,6 +46,8 @@
             <form>
                 <i class='bx bx-microphone mic-speak-icon-start' id="start-voice-record"></i>
                 <i class='bx bx-microphone-off mic-speak-icon-stop' id="stop-voice-record"></i>
+                <i class="bi bi-volume-up  mic-speak-icon-start " id="start-speaker" onclick="TurnOnOffSpeaker()"></i>
+                <i class="bi bi-volume-mute  mic-speak-icon-stop " id="off-speaker" onclick="TurnOnOffSpeaker()"></i>
                 <input type="text" id="chat-input" placeholder="Send a message..." />          
                 <button type="submit" class="chat-submit" id="chat-submit"><i class='bx bx-send'></i></button>
             </form>
@@ -64,11 +66,11 @@
         </div>
     </div>
 </div>
-
+<input type="hidden" id="speaker-status" value="0" />
 <style type="text/css">
     .mic-speak-icon-start {
         font-size: 18px;
-        color: #0d6efd;
+        color: #5A5EB9;
         background: transparent;
         padding: 5px 8px;
         border-radius: 50%;
@@ -78,7 +80,7 @@
     }
 
     .mic-speak-icon-start:hover {
-        background: #0d6efd;
+            background: #5A5EB9;
         color: #fff;
         cursor: pointer;
     }
@@ -86,11 +88,11 @@
     .mic-speak-icon-stop {
         display: none;
         font-size: 18px;
-        color: #0d6efd;
+        color: #5A5EB9;
         background: transparent;
         padding: 5px 8px;
         border-radius: 50%;
-        background: #0d6efd;
+        background: #5A5EB9;
         color: #fff;
         cursor: pointer;
         height: 32px;

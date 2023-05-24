@@ -71,6 +71,7 @@
                         data.messeges.forEach(element => {
                             generateMessage(element, 'user');
                         });
+                        
                     }
                     else if (data.type == 'Buttons') {
                         generateButtonMessage(msg, data.buttons)
@@ -193,7 +194,15 @@
         strArr.push(msg);
         strArr.push("<\/div>");
         strArr.push("<\/div>");
+        const speakerStatus = document.getElementById("speaker-status").value;
+        if (speakerStatus == 1) {
+            const synth = window.speechSynthesis;
+            const utterance = new SpeechSynthesisUtterance(msg);
+            const voices = synth.getVoices();
+            utterance.voice = voices[0]
+            synth.speak(utterance);
 
+        }
         return strArr.join("");
     }
 
@@ -227,4 +236,21 @@
 
         return strArr.join("");
     }
+
 })
+function TurnOnOffSpeaker() {
+    const speakerStatus = document.getElementById("speaker-status").value;
+    const startSpeaker = document.getElementById('start-speaker');
+    const offSpeaker = document.getElementById('off-speaker');
+
+    if (speakerStatus == 0) {
+        document.getElementById("speaker-status").value = 1;
+        offSpeaker.style = "display:inline;";
+        startSpeaker.style = "display:none;";
+    }
+    else {
+        document.getElementById("speaker-status").value = 0;
+        startSpeaker.style = "display:inline;";
+        offSpeaker.style = "display:none;";
+    }
+}
