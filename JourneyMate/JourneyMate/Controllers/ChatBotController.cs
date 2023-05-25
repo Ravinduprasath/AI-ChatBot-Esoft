@@ -2,6 +2,7 @@
 using JourneyMate.DbLayer.Domains;
 using JourneyMate.Models.ChatBot;
 using JourneyMate.ServiceLayer.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -11,6 +12,9 @@ namespace JourneyMate.Controllers
     public class ChatBotController : Controller
     {
         private readonly IChatBotService _chatBotService;
+        //bool waitingForAnswer = false;
+        //int? unkownQuestionId = 0;
+        
 
         public ChatBotController(IChatBotService chatBotService)
         {
@@ -29,9 +33,58 @@ namespace JourneyMate.Controllers
         /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> ChatMessege(string userInput)
-        {         
-            var res  = await _chatBotService.GetResponse(userInput);
-            var data = GetResponseGetChatResponse(res);
+        {
+            bool waitingForAnswer  = HttpContext.Session.GetString("waitingForAnswer") == "true";
+            int? unknownQuestionId = HttpContext.Session.GetInt32("unknownQuestionId");
+
+            var res  = new List<BotAnswer>();
+            var data = new ChatResponse
+            {
+                Status = HttpStatusCode.OK,
+                Type = ChatResponseType.Text
+            };
+
+            // Waiting for an answer
+            if (waitingForAnswer && unknownQuestionId != null && unknownQuestionId != default)
+            {
+                string? error = await _chatBotService.UpdateUnkownQuestionsAnswer(new UnkownQuestions { Id = (int)unknownQuestionId, Answer = userInput });
+
+                HttpContext.Session.SetString("waitingForAnswer", "false");
+                HttpContext.Session.SetInt32("unknownQuestionId", 0);
+
+                if (string.IsNullOrEmpty(error))
+                    data.Messeges.Add("Thank you!");
+                else
+                    data.Messeges.Add("Can not save answer !");
+            }
+            else
+            {
+                res = await _chatBotService.GetResponse(userInput);
+
+
+                // No answer received
+                if ((res.Count == 1 || res.Count == 0) && string.IsNullOrEmpty(res?.FirstOrDefault()?.Text))
+                {
+                    var id = await _chatBotService.SaveUnkownQuestions(new UnkownQuestions { Question = userInput });
+
+                    if (id == default)
+                    {
+                        data.Messeges.Add("Sorry I could't find an answer");
+                    }
+                    else
+                    {
+                        HttpContext.Session.SetString("waitingForAnswer", "true");
+                        HttpContext.Session.SetInt32("unknownQuestionId", (int)id);
+                        data.Messeges.Add("Can you please tell the answer");
+                    }
+
+                }
+                // We do have ans answer
+                else
+                {
+                    data = GetResponseGetChatResponse(res, data);
+                }
+            }
 
             return Json(data);
         }
@@ -42,15 +95,10 @@ namespace JourneyMate.Controllers
         /// Convert answer to ChatResponse
         /// </summary>
         /// <param name="botAnswers">List of answers</param>
+        /// <param name="data">ChatResponse initialized</param>
         /// <returns></returns>
-        private ChatResponse GetResponseGetChatResponse(List<BotAnswer> botAnswers) 
+        private ChatResponse GetResponseGetChatResponse(List<BotAnswer> botAnswers, ChatResponse data) 
         {
-            var data = new ChatResponse
-            {
-                Status = HttpStatusCode.OK,
-                Type = ChatResponseType.Text
-            };
-
             // Get intent type id
             long intentType = botAnswers.Select(x => x.Question.IntentId).FirstOrDefault();
 
@@ -89,9 +137,8 @@ namespace JourneyMate.Controllers
                     if (botAnswers.Any())
                         AddToMessege(botAnswers, data);
                     // No answer
-                    else
-                        data.Messeges.Add("Sorry I could't find an answer");
-
+                    //else
+                    //    data.Messeges.Add("Sorry I could't find an answer");
                     break;
             }
 
@@ -114,10 +161,11 @@ namespace JourneyMate.Controllers
             }
         }
 
-        //data.Buttons.Add(new ChatBotButton("Google", "btn btn-sm btn-primary", href: "https://www.google.lk"));
-        //data.Buttons.Add(new ChatBotButton("C#", "btn btn-sm btn-primary"));
-
-        //data.Messeges.Add("Hi");
         #endregion
     }
 }
+
+//data.Buttons.Add(new ChatBotButton("Google", "btn btn-sm btn-primary", href: "https://www.google.lk"));
+//data.Buttons.Add(new ChatBotButton("C#", "btn btn-sm btn-primary"));
+
+//data.Messeges.Add("Hi");

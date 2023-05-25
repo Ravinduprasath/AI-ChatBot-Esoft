@@ -17,6 +17,11 @@ builder.Services.AddScoped<IChatBotRepo, ChatBotRepo>();
 // Service layer dependecy injection
 builder.Services.AddScoped<IChatBotService, ChatBotService>();
 
+builder.Services.AddSession(options =>
+{
+    options.Cookie.IsEssential = true; // Required to allow session storage
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -31,6 +36,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseSession();
 
 app.UseAuthorization();
 

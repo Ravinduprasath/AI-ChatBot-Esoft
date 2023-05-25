@@ -3,6 +3,7 @@ using System;
 using JourneyMate.DbLayer.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JourneyMate.Migrations
 {
     [DbContext(typeof(ChatBotContext))]
-    partial class ChatBotContextModelSnapshot : ModelSnapshot
+    [Migration("20230525022821_Unkown questions")]
+    partial class Unkownquestions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,9 +110,6 @@ namespace JourneyMate.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    b.Property<string>("Answer")
-                        .HasColumnType("longtext");
 
                     b.Property<string>("Question")
                         .IsRequired()

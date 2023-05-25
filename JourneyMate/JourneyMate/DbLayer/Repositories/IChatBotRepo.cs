@@ -37,5 +37,23 @@ namespace JourneyMate.DbLayer.Repositories
         /// <param name="keyword">Some matching words</param>
         /// <returns></returns>
         Task<List<BotAnswer>> AnswersFromKeyword(string keyword);
+
+        /// <summary>
+        /// Add unkown answers to database
+        /// </summary>
+        /// <param name="questions">String question</param>
+        /// <returns>
+        /// Success : question id, Else : null
+        /// </returns>
+        Task<int?> SaveUnkownQuestions(UnkownQuestions questions);
+
+        /// <summary>
+        /// Add unkown answers to database
+        /// </summary>
+        /// <param name="questions">String question</param>
+        /// <returns>
+        /// Success : null, Else : Erorr message
+        /// </returns>
+        Task<string?> UpdateUnkownQuestionsAnswer(UnkownQuestions questions);
     }
 }

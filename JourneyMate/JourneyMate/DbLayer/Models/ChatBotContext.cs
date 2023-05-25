@@ -52,29 +52,34 @@ namespace JourneyMate.DbLayer.Models
         /// Intent
         /// Ex : Greeting, Farewell, Find 
         /// </summary>
-        public DbSet<Intent> Intents         { get; set; }
+        public DbSet<Intent> Intents                  { get; set; }
 
         /// <summary>
         /// Set of questions
         /// </summary>
-        public DbSet<Question> Questions     { get; set; }
+        public DbSet<Question> Questions              { get; set; }
 
         /// <summary>
         /// Answer type
         /// Ex : Text, Button
         /// </summary>
-        public DbSet<AnswerType> AnswerTypes { get; set; }
+        public DbSet<AnswerType> AnswerTypes          { get; set; }
 
         /// <summary>
         /// Answer for question 
         /// In various format Text, Image
         /// </summary>
-        public DbSet<BotAnswer> BotAnswers   { get; set; }
+        public DbSet<BotAnswer> BotAnswers            { get; set; }
 
         /// <summary>
         /// Intent kewords
         /// Ex : What is, Search for, Find
         /// </summary>
-        public DbSet<UserIntent> UserIntents { get; set; }
+        public DbSet<UserIntent> UserIntents          { get; set; }
+
+        /// <summary>
+        /// Chatbot dont know answer for this questions
+        /// </summary>
+        public DbSet<UnkownQuestions> UnkownQuestions { get; set; }
     }
 }

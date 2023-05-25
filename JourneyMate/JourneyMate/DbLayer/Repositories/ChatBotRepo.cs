@@ -89,5 +89,53 @@ namespace JourneyMate.DbLayer.Repositories
 
             return list;
         }
+
+        /// <summary>
+        /// Add unkown answers to database
+        /// </summary>
+        /// <param name="questions">String question</param>
+        /// <returns>
+        /// Success : question id, Else : null
+        /// </returns>
+        public async Task<int?> SaveUnkownQuestions(UnkownQuestions questions) 
+        {
+            try 
+            {
+                await _context.UnkownQuestions.AddAsync(questions);
+                await _context.SaveChangesAsync();
+                return questions.Id;
+            }
+            catch(Exception) 
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Add unkown answers to database
+        /// </summary>
+        /// <param name="questions">String question</param>
+        /// <returns>
+        /// Success : null, Else : Erorr message
+        /// </returns>
+        public async Task<string?> UpdateUnkownQuestionsAnswer(UnkownQuestions questions) 
+        {
+            var found = await _context.UnkownQuestions.Where(x => x.Id == questions.Id).FirstOrDefaultAsync();
+
+            if (found == null)
+                return "Can not found record";
+
+            found.Answer = questions.Answer;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return null;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
     }
 }

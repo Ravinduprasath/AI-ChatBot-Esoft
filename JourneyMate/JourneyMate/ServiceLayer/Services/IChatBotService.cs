@@ -12,5 +12,23 @@ namespace JourneyMate.ServiceLayer.Services
         /// Success : Answer , Else : Error messege
         /// </returns>
         Task<List<BotAnswer>> GetResponse(string userInput);
+
+        /// <summary>
+        /// Add unkown answers to database
+        /// </summary>
+        /// <param name="questions">String question</param>
+        /// <returns>
+        /// Success : question id, Else : null
+        /// </returns>
+        Task<int?> SaveUnkownQuestions(UnkownQuestions questions);
+
+        /// <summary>
+        /// Add unkown answers to database
+        /// </summary>
+        /// <param name="questions">String question</param>
+        /// <returns>
+        /// Success : null, Else : Erorr message
+        /// </returns>
+        Task<string?> UpdateUnkownQuestionsAnswer(UnkownQuestions questions);
     }
 }

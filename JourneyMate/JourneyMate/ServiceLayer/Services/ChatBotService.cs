@@ -28,7 +28,7 @@ namespace JourneyMate.ServiceLayer.Services
             var answer = new BotAnswer
             {
                 AnswerTypeId = (int)ChatResponseType.Text,
-                Text = "Sorry I could't find an answer"
+                Text = string.Empty
             };
 
             answers.Add(answer);
@@ -58,7 +58,11 @@ namespace JourneyMate.ServiceLayer.Services
                 var questions = await Questions(intent.IntentId);
 
                 if (questions is null)
+                {
+                    // Save to db
+                    await SaveUnkownQuestions(new UnkownQuestions { Question = userInput });
                     return answers;
+                }
 
                 Question? closestMatchQuestion = new Question();
 
@@ -73,6 +77,38 @@ namespace JourneyMate.ServiceLayer.Services
 
             return answersFromDb;
         }
+
+        /// <summary>
+        /// Add unkown answers to database
+        /// </summary>
+        /// <param name="questions">String question</param>
+        /// <returns>
+        /// Success : question id, Else : null
+        /// </returns>
+        public async Task<int?> SaveUnkownQuestions(UnkownQuestions questions)
+        {
+            if (string.IsNullOrEmpty(questions?.Question?.Trim()))
+                return null;
+
+            return await _chatBotRepo.SaveUnkownQuestions(questions);
+        }
+
+        /// <summary>
+        /// Add unkown answers to database
+        /// </summary>
+        /// <param name="questions">String question</param>
+        /// <returns>
+        /// Success : null, Else : Erorr message
+        /// </returns>
+        public async Task<string?> UpdateUnkownQuestionsAnswer(UnkownQuestions questions) 
+        {
+            if (string.IsNullOrEmpty(questions?.Answer?.Trim()))
+                return null;
+
+            return await _chatBotRepo.UpdateUnkownQuestionsAnswer(questions);
+        }
+
+        #region Helpers
 
         /// <summary>
         /// Get all intents with keywords
@@ -195,5 +231,7 @@ namespace JourneyMate.ServiceLayer.Services
 
             return intent;
         }
+
+        #endregion
     }
 }
