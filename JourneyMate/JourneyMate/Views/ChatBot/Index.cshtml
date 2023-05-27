@@ -4,29 +4,7 @@
 
 <div id="body">
     <div id="chat-circle" class="">
-        <svg width="84" height="84" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <title>Codi Button</title>
-            <g id="kółko"><circle class="cls-1" cx="32" cy="32" r="32" /></g>
-            <g id="Lewe_ucho" data-name="Lewe ucho">
-                <rect class="cls-2" x="9" y="26" width="2" height="14" />
-            </g>
-            <g id="Prawe_ucho" data-name="Prawe ucho">
-                <rect class="cls-2" x="53" y="26" width="2" height="14" />
-            </g>
-            <g id="Głowa">
-                <path class="cls-2" d="M14,20l-1,1V44.9l1,1H25.75l15,8,1.35-1.34L38.67,45.9H50l1-1V21l-1-1ZM49,43.9H37l-.89,1.46,2.74,5.24L26.47,44,26,43.9H15V22H49Z" />
-            </g>
-            <g id="Buzia"><rect class="cls-2" x="28" y="37" width="8" height="2" /></g>
-            <g id="Prawe_oko" data-name="Prawe oko">
-                <path class="cls-2" d="M40,30a2,2,0,0,1,2,2h2a4,4,0,0,0-8,0h2A2,2,0,0,1,40,30Z" />
-            </g>
-            <g id="Lewe_oko" data-name="Lewe oko">
-                <path class="cls-2" d="M24,30a2,2,0,0,1,2,2h2a4,4,0,0,0-8,0h2A2,2,0,0,1,24,30Z" />
-            </g>
-            <g id="Antena">
-                <path class="cls-2" d="M36,14a4,4,0,1,0-5,3.85L31,21h2l0-3.14A4,4,0,0,0,36,14Zm-4,2a2,2,0,1,1,2-2A2,2,0,0,1,32,16Z" />
-            </g>
-        </svg>
+        <img src="~/img/chat.png" />
     </div>
 
 
@@ -51,26 +29,15 @@
                 <input type="text" id="chat-input" placeholder="Send a message..." />          
                 <button type="submit" class="chat-submit" id="chat-submit"><i class='bx bx-send'></i></button>
             </form>
-            @*<div class="row">
-                <div class="col-md-1 mt-2">
-                    <i class='bx bx-microphone mic-speak-icon-start' id="start-voice-record"></i>
-                    <i class='bx bx-microphone-off mic-speak-icon-stop' id="stop-voice-record"></i>
-                </div>
-                <div class="col-md-11">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Type your message" id="message-input">
-                        <button type="button" class="btn btn-primary" onclick="sendMessage()">Send</button>
-                    </div>
-                </div>
-            </div>*@
         </div>
     </div>
 </div>
 <input type="hidden" id="speaker-status" value="0" />
+
 <style type="text/css">
     .mic-speak-icon-start {
         font-size: 18px;
-        color: #5A5EB9;
+        color: #0277BD;
         background: transparent;
         padding: 5px 8px;
         border-radius: 50%;
@@ -80,7 +47,7 @@
     }
 
     .mic-speak-icon-start:hover {
-            background: #5A5EB9;
+        background: #0277BD;
         color: #fff;
         cursor: pointer;
     }
@@ -88,11 +55,11 @@
     .mic-speak-icon-stop {
         display: none;
         font-size: 18px;
-        color: #5A5EB9;
+        color: #0277BD;
         background: transparent;
         padding: 5px 8px;
         border-radius: 50%;
-        background: #5A5EB9;
+        background: #0277BD;
         color: #fff;
         cursor: pointer;
         height: 32px;
