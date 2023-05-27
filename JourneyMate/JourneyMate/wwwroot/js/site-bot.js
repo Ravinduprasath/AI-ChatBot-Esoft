@@ -60,7 +60,7 @@
         generateMessage(msg, 'self');
 
         // Get data via ajax request
-        makeAjaxRequest("ChatBot/ChatMessegesda", "POST", "json", { userInput: msg  })
+        makeAjaxRequest("ChatBot/ChatMessege", "POST", "json", { userInput: msg  })
             .then(function (data) {
 
                 // HttpStatusCode Ok
